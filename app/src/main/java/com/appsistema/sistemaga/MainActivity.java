@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
     static final Integer PHONESTATS = 0x1;
     public static String Token = "";
     public static String Exp_Token = "";
-    public static String host = "https://AWS.miapp.cl/public/valida_login_docente/";
+    public static String host = "https://AWS.miapp.cl/public/valida_login_docente/"; // Configuracion del Server para API
     private static String Password = "";
-
+    // Declaracion de variables Globales
     ProgressDialog progressDialog;
     EditText passwordEditText;
     EditText userEditText;
@@ -58,15 +58,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //Seteo de Botones
         btn_login = findViewById(R.id.btn_login);
         btn_salir = findViewById(R.id.btn_salir);
 
+        // Creacion de Progres Dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Validando....");
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
+
         //SETEAR COLOR PROGRESSDIALOG
         Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
         drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"Error " + e,Toast.LENGTH_LONG).show();
         }
     }
+    // funcion de botones que segun el boton realiza una accion
     public void botones(View view) {
 
         if (view.getId() == R.id.btn_login) {
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.ValidaLogin tarea = new MainActivity.ValidaLogin();
         tarea.execute(host + "/valida_login_docente/");
     }
+    // funcion para crear login flotante
     private void showLoginDialog(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
