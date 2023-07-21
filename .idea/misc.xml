@@ -1,0 +1,22 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/btn_comun.xml" value="0.314" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/btn_salir.xml" value="0.314" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/dialog_background.xml" value="0.314" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_main.xml" value="0.26176470588235295" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_modulo_docente.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/btn_comu.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/btn_comun.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_login.xml" value="0.3619791666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
