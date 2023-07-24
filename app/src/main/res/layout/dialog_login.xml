@@ -78,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Login"
+            android:onClick="botones"
             android:background="@drawable/btn_comun"
             />
 

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -5,11 +6,16 @@
         <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/btn_comun.xml" value="0.314" />
         <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/btn_salir.xml" value="0.314" />
         <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/dialog_background.xml" value="0.314" />
-        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_main.xml" value="0.26176470588235295" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/diseno_comentario.xml" value="0.22" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/diseno_spinner.xml" value="0.231" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/ic_launcher_background.xml" value="0.231" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_mis_alumnos.xml" value="0.3489583333333333" />
         <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_modulo_docente.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/btn_comu.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/btn_comun.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_login.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/menu/drawer_menu.xml" value="0.36302083333333335" />
       </map>
     </option>
   </component>
@@ -18,5 +24,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.22" />
+      </ProjectState>
+    </option>
   </component>
 </project>
