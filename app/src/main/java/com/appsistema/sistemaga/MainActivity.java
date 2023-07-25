@@ -49,11 +49,12 @@ import java.sql.SQLException;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    // Declaracion e inicalizacion de variables
     static final Integer PHONESTATS = 0x1;
-    public static String host = "http://192.168.0.4/APISistemaGA/public";
-    public static Integer perfil_usuario = 0;
+    public static String host = "http://10.10.10.112/APISistemaGA/public";
     public static JSONObject jsonObject = null;
+    public static String Usuario = "";
+    public static Integer Perfil = 0;
 
     ProgressDialog progressDialog;
     EditText passwordEditText;
@@ -80,49 +81,6 @@ public class MainActivity extends AppCompatActivity {
         Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
         drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
         progressDialog.setIndeterminateDrawable(drawable);
-
-        try {
-            //Abro conexion con la base GestionConducta
-            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-
-                    "GestionConducta", null, 1);
-            AdminSQLiteOpenHelper admin1 = new AdminSQLiteOpenHelper(this,
-
-                    "GestionConducta", null, 1);
-            //seteo la escritura de base.
-            SQLiteDatabase bd = admin.getWritableDatabase();
-            SQLiteDatabase bd1 = admin1.getWritableDatabase();
-
-            // reviso que exista la tabla login, sino la creo.
-            Cursor fila = bd1.rawQuery(
-                    "SELECT name FROM sqlite_master WHERE TYPE='table' AND name='login'", null);
-            if (fila.moveToFirst()) {
-                Cursor fila1 = bd1.rawQuery(
-                        "SELECT * FROM login", null);
-                //Capturo los datos
-                if (fila1.moveToFirst()) {
-                    usuario = fila1.getString(0);
-                    password = fila1.getString(1);
-                }
-
-            } else {
-                //Creo tabla login
-                bd.execSQL("create table login(Id INTEGER PRIMARY KEY AUTOINCREMENT,Usuario INTEGER,Password TEXT,Nombre TEXT)");
-                //inserto datos genericos para test.
-                bd1.execSQL("INSERT INTO login (Usuario,Password,Nombre) VALUES ('12345678','password','SuperUsuario')");
-            }
-            //Cierro conexiones
-            admin.close();
-            admin1.close();
-            bd.close();
-            bd1.close();
-
-            consultarPermiso(Manifest.permission.READ_PHONE_STATE, PHONESTATS);
-            consultarPermiso(Manifest.permission.BLUETOOTH_CONNECT, PHONESTATS);
-
-        } catch (Exception e) {
-            //  Toast.makeText(this, ""+e, Toast.LENGTH_SHORT).show();
-        }
 
     }
 
@@ -162,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Complete los campos para continuar",Toast.LENGTH_LONG).show();
         }
-
-
 
     }
     private void showLoginDialog(){ //Construccion y preparacion de datos-.
@@ -214,12 +170,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class ValidaLogin extends AsyncTask<String, Void, JSONObject> {
+    private class ValidaLogin extends AsyncTask<String, Void, JSONObject> { // Tarea Asincrona
         @Override
         protected JSONObject doInBackground(String... urls) {
 
             try {
-                //URL = urls[0];
                 return downloadUrlUsuario(urls[0]);
             } catch (Exception e) {
                 return null;
@@ -232,13 +187,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject result) {
             try {
-
                 JSONObject jsonObject = result;
-
                 if (jsonObject.getString("status").trim().equals("OK")) {
+                    //Valido el tipo de perfil para redireccionar.
                     Integer perfil = jsonObject.getInt("validacion");
                     try {
                         if (perfil.equals(1)) {
+                            Perfil = perfil;
+                            Usuario = usuario;
                             progressDialog.dismiss();
                             Intent intent2 = new Intent(MainActivity.this, mis_alumnos.class);
                             startActivity(intent2);
@@ -264,13 +220,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "" + Mensaje, Toast.LENGTH_SHORT).show();
                 } else {
                     progressDialog.dismiss();
-                    Toast.makeText(MainActivity.this, "i ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Error de servidor", Toast.LENGTH_SHORT).show();
                 }
-
             } catch (Exception e) {
                 progressDialog.dismiss();
                 Log.e("hj",""+e);
-                Toast.makeText(MainActivity.this, "Error "+e, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Error al conectar con el servidor  " + e, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -326,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void Dialogo(final String Titulo, String Mesange) { //Dialogo flotante
+    public void Dialogo(final String Titulo, String Mesange) { // Funcion para alertas Dialogo flotante
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder.setTitle(Titulo);
@@ -340,57 +295,6 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .create().show();
     }
-
-   /* public JSONObject downloadUrl(String myurl) throws IOException { //prepara envio de datos a la api
-
-        try {
-            InputStream is = null;
-            int len = 500;
-
-            try {
-                URL url = new URL(myurl);
-                Map<String, Object> params = new LinkedHashMap<>();
-                //datos de cabezera para la api
-                params.put("user", usuario);
-                params.put("pass", password);
-
-                StringBuilder postData = new StringBuilder();
-                for (Map.Entry<String, Object> param : params.entrySet()) {
-                    if (postData.length() != 0) postData.append('&');
-                    postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
-                    postData.append('=');
-                    postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
-                }
-                byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
-
-                conn.setDoOutput(true);
-                conn.getOutputStream().write(postDataBytes);
-
-                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-
-                StringBuilder sb = new StringBuilder();
-                for (int c; (c = in.read()) >= 0; )
-                    sb.append((char) c);
-
-                Log.e("json", sb.toString());
-                return new JSONObject(sb.toString());
-
-                // Makes sure that the InputStream is closed after the app is
-                // finished using it.
-            } finally {
-                if (is != null) {
-                    is.close();
-                }
-            }
-        } catch (Exception E) {
-            return null;
-        }
-    }*/
 
     private void consultarPermiso(String permission, Integer requestCode) { //consulta los permisos concedidos por el usuario
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {

@@ -14,17 +14,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Resto de tu contenido -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Alumnos"
+            android:textSize="25dp"
+            android:gravity="center_horizontal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAlumnos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
+        android:id="@+id/menu_lateral"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu" />
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
