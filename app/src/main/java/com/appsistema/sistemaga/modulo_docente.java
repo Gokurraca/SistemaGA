@@ -2,6 +2,7 @@ package com.appsistema.sistemaga;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -20,7 +21,12 @@ public class modulo_docente extends AppCompatActivity {
 
 
     }
-
+    @Override
+    public void onBackPressed (){
+        Intent intent2 = new Intent(modulo_docente.this, mis_alumnos.class);
+        startActivity(intent2);
+        finish();
+    }
     public void showMenu(View view) {
 
 
