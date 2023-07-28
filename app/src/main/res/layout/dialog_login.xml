@@ -39,7 +39,7 @@
                 android:layout_gravity="center"
                 android:backgroundTint="@color/botones"
                 android:hint="Rut"
-                android:inputType="number" />
+                android:inputType="text" />
 
             <ImageView
                 android:id="@+id/img_login"
