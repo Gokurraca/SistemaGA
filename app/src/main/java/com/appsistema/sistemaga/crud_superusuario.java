@@ -49,10 +49,11 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
 
     ProgressDialog progressDialog;
     Button btn_limpiar;
+    ImageButton btn_modificar1;
     Button btn_modificar;
     //ImageButton btn_modificar;
-    Button btn_agregar;
-    Button btn_eliminar;
+    ImageButton btn_agregar;
+    ImageButton btn_eliminar;
     Button btn_guardar;
     Button btn_eliminarFalta;
     Integer opcion_CategoriaFalta = 0;
@@ -82,7 +83,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
         progressDialog.setIndeterminateDrawable(drawable);
 
-        btn_modificar = findViewById(R.id.btn_modificar);
+        btn_modificar1 = findViewById(R.id.btn_modificar);
         btn_agregar = findViewById(R.id.btn_agregar);
         btn_eliminar = findViewById(R.id.btn_eliminar);
 
@@ -108,7 +109,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
     }
 
     public void botones(View view) { //Funcion donde se indica que hará cada botón
-        if (view.getId() == btn_modificar.getId()) {
+        if (view.getId() == btn_modificar1.getId()) {
             ShowdialogModificaFalta();
         }
         if (view.getId() == btn_agregar.getId()) {

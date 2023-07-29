@@ -20,7 +20,8 @@
             android:textAlignment="center"
             android:text="Alumnos"
             android:textSize="25dp"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:textColor="@color/teal_700"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewAlumnos"
