@@ -40,6 +40,14 @@
             android:name=".modulo_docente"
             android:exported="false" />
         <activity
+            android:name=".Listado_Faltas"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".agregar_falta"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

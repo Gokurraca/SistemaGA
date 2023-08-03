@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
 
    // static final Integer PHONESTATS = 0x1; Obtencion de IMEI
-    public static String host = "http://192.168.245.136/APISistemaGA/public";
+    public static String host = "http://10.10.10.112/APISistemaGA/public";
     public static JSONObject jsonObject = null;
     public static String Usuario = "";
     public static Integer Perfil = 0;

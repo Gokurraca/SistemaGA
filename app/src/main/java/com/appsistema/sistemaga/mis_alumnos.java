@@ -49,10 +49,15 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
     ProgressDialog progressDialog;
     private DrawerLayout drawerLayout;
     private ListView list_alumnos;
-
+    TextView txtFaltaLeve;
+    TextView txtFaltaGrave;
+    TextView txtFaltaGravisima;
+    TextView txtNombreAlumno;
     private List<String> items;
     static String Nombre = "";
-
+    Integer faltaleve=0;
+    Integer faltagrave=0;
+    Integer faltagravisima=0;
     public static String nombre_alumno = "";
     public static String rut_alumno = "";
 
@@ -70,6 +75,14 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
         Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
         drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
         progressDialog.setIndeterminateDrawable(drawable);
+
+       /* txtNombreAlumno = findViewById(R.id.txt_nombreAlumno);
+        txtFaltaLeve = findViewById(R.id.txt_FaltaLeve);
+        txtFaltaGrave = findViewById(R.id.txt_FaltaGrave);
+        txtFaltaGravisima = findViewById(R.id.txt_FaltaGravisima);
+
+        */
+
         list_alumnos  =findViewById(R.id.list_alumnos);
         drawerLayout = findViewById(R.id.drawer_layout);
 
@@ -83,6 +96,7 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
         @Override
         protected JSONObject doInBackground(String... urls) {
 
+            // params comes from the execute() call: params[0] is the url.
             try {
                 return downloadUrlGetFaltasxAlumno(urls[0]);
             } catch (Exception e) {
@@ -134,7 +148,55 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
                     // Establecer el adaptador en el ListView
                     listView.setAdapter(adapter);
 
+                    // Manejar el clic en un elemento del ListView
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            AlumnoListado alumno = listaAlumnos.get(position);
+                            nombre_alumno = alumno.getNombre();
+                            faltaleve = alumno.getFaltaLeve();
+                            faltagrave = alumno.getFaltaGrave();
+                            faltagravisima = alumno.getFaltaGravisima();
+                            rut_alumno = alumno.getRut();
+                            showOpcionesDialog();
+                        }
+                    });
 
+                    // Obtener una referencia al ListView en tu actividad
+                   /* ListView listView = findViewById(R.id.list_alumnos);
+
+                    // Crear el adaptador para mostrar listado alumnos.
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(mis_alumnos.this, R.layout.device_name, items) {
+                        @NonNull
+                        @Override
+                        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                            TextView textView = (TextView) super.getView(position, convertView, parent);
+
+                            // Crea un SpannableString con el texto y el color deseado
+                            String item = getItem(position);
+                            SpannableString spannableString = new SpannableString(item);
+                            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#757575"));
+                            //StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
+                            spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            // Establece el SpannableString como texto del TextView
+                            textView.setText(spannableString);
+
+                            return textView;
+                        }
+                    };
+
+                    // Establecer el adaptador en el ListView
+                    listView.setAdapter(adapter);
+
+                    // Manejar el clic en un elemento del ListView
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String Alumno = items.get(position);
+                            data = Alumno;
+                            showOpcionesDialog();
+                        }
+                    });*/
 
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String mensaje = jsonObject.getString("Mensaje");
@@ -152,6 +214,66 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
         }
     }
 
+    private void showOpcionesDialog(){ //Construccion y preparacion de datos-.
+        //genero el alertdialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_ver_cre, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+        // Cambiar el color del texto de los botones
+        positiveButton.setTextColor(getResources().getColor(R.color.botones));
+        negativeButton.setTextColor(getResources().getColor(R.color.botones_salir));
+        // Redondear el diálogo
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+        }
+    }
+
+    public void botones(View view) { //Funcion donde se indica que hará cada botón
+
+
+        // Obtener la referencia a la vista del layout diferente
+        View otherLayout = LayoutInflater.from(this).inflate(R.layout.dialog_ver_cre, null);
+
+        // Obtener la referencia al botón en el layout diferente
+        Button btn_listado = otherLayout.findViewById(R.id.btn_listado);
+        Button btn_registrar = otherLayout.findViewById(R.id.btn_registrar);
+
+        if (view.getId() == btn_listado.getId()) {
+
+            if (faltaleve > 0 || faltagrave > 0 || faltagravisima > 0) {
+                Intent intent2 = new Intent(mis_alumnos.this, Listado_Faltas.class);
+                intent2.putExtra("rutAlumno",rut_alumno);
+                intent2.putExtra("nombreAlumno",nombre_alumno);
+                intent2.putExtra("rutFuncionario",Usuario);
+                intent2.putExtra("faltaLeve",String.valueOf(faltaleve));
+                intent2.putExtra("faltaGrave",String.valueOf(faltagrave));
+                intent2.putExtra("faltaGravisima",String.valueOf(faltagravisima));
+                startActivity(intent2);
+                finish();
+            } else {
+                Dialogo("Alerta","No hay información de faltas");
+            }
+        }
+
+        if (view.getId() == btn_registrar.getId()) {
+            //envio valores a la clase agregar_falta
+            Intent intent = new Intent(this, agregar_falta.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("nombreAlumno", nombre_alumno);
+            intent.putExtra("rutAlumno",rut_alumno);
+            intent.putExtra("rutFuncionario",Usuario);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+        }
+    }
 
     public JSONObject downloadUrlGetFaltasxAlumno(String myurl) throws IOException {
 
@@ -243,7 +365,7 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
                 finish();
                 break;
 
-           case R.id.menu_salir: // Salir
+           case R.id.menu_salir: // Listado de faltas
                Intent intent2 = new Intent(mis_alumnos.this, MainActivity.class);
                startActivity(intent2);
                finish();
