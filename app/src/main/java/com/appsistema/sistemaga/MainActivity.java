@@ -43,6 +43,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+
    // static final Integer PHONESTATS = 0x1; Obtencion de IMEI
     public static String host = "http://192.168.245.136/APISistemaGA/public";
     public static JSONObject jsonObject = null;
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void ValidarAcceso(){
+    private void ValidarAcceso(){ // Funcion para validar  formulario acceso no este vacio
         //seteo las variables para poder usarlas despues.
         usuario = userEditText.getText().toString().trim();
         password = passwordEditText.getText().toString().trim();

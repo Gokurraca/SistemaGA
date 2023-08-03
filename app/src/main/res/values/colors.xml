@@ -10,4 +10,9 @@
     <color name="botones">#3498DB</color>
     <color name="botones_salir">#DB3434</color>
     <color name="texto_spinner">#757575</color>
+    <color name="naranjo">#F6760B</color>
+    <color name="vino">#CD6155</color>
+    <color name="gris">#34495E</color>
+    <color name="azul">#2980B9 </color>
+
 </resources>

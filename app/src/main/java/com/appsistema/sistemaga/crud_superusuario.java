@@ -47,6 +47,7 @@ import java.util.Map;
 
 public class crud_superusuario extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
+
     ProgressDialog progressDialog;
     Button btn_limpiar;
     ImageButton btn_modificar1;
@@ -243,8 +244,10 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String des = txt_descripcion.getText().toString().trim();
                 if (txt_descripcion.getText().toString().trim().equals("")){
                     Toast.makeText(crud_superusuario.this, "Debe agregar una descripcion", Toast.LENGTH_SHORT).show();
+
                 }else{
                     Agregar tareaCargar = new Agregar();
                     tareaCargar.execute(host + "/guardarfalta/");
@@ -253,6 +256,12 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
             }
         });
     }
+
+
+
+
+
+
 
     private void ShowdialogEliminarFalta(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
