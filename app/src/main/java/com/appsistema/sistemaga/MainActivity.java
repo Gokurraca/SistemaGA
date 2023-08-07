@@ -1,12 +1,7 @@
 package com.appsistema.sistemaga;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +23,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -38,20 +37,15 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 
 public class MainActivity extends AppCompatActivity {
-    // Declaracion e inicalizacion de variables
-    static final Integer PHONESTATS = 0x1;
-    public static String host = "http://10.10.10.112/APISistemaGA/public";
+
+
+   // static final Integer PHONESTATS = 0x1; Obtencion de IMEI
+    public static String host = "http://10.10.10.103/APISistemaGA/public";
     public static JSONObject jsonObject = null;
     public static String Usuario = "";
     public static Integer Perfil = 0;
@@ -82,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
         progressDialog.setIndeterminateDrawable(drawable);
 
+
     }
 
     public void botones(View view) { //Funcion donde se indica que hará cada botón
@@ -91,8 +86,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (view.getId() == R.id.btn_salir) {
             //cierra la aplicacion
-            finishAffinity();
+            finish();
         }
+
 
         // Obtener la referencia a la vista del layout diferente
         View otherLayout = LayoutInflater.from(this).inflate(R.layout.dialog_login, null);
@@ -105,22 +101,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void ValidarAcceso(){
+    private void ValidarAcceso(){ // Funcion para validar  formulario acceso no este vacio
         //seteo las variables para poder usarlas despues.
         usuario = userEditText.getText().toString().trim();
         password = passwordEditText.getText().toString().trim();
-
-        //Acceso de prueba:
         //se valida que los campos no esten en blanco.
         if (!usuario.equals("") && !password.equals("")){
-
             //se concatena el host del servidor + el modulo del api (ws)
-            MainActivity.ValidaLogin tarea = new MainActivity.ValidaLogin();
+            ValidaLogin tarea = new ValidaLogin();
             tarea.execute(host + "/valida_login/");
         }else{
             Toast.makeText(this, "Complete los campos para continuar",Toast.LENGTH_LONG).show();
         }
-
     }
     private void showLoginDialog(){ //Construccion y preparacion de datos-.
 
@@ -170,11 +162,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class ValidaLogin extends AsyncTask<String, Void, JSONObject> { // Tarea Asincrona
+    private class ValidaLogin extends AsyncTask<String, Void, JSONObject> {
         @Override
         protected JSONObject doInBackground(String... urls) {
 
             try {
+                //URL = urls[0];
                 return downloadUrlUsuario(urls[0]);
             } catch (Exception e) {
                 return null;
@@ -192,18 +185,24 @@ public class MainActivity extends AppCompatActivity {
                     //Valido el tipo de perfil para redireccionar.
                     Integer perfil = jsonObject.getInt("validacion");
                     try {
-                        if (perfil.equals(1)) {
-                            Perfil = perfil;
-                            Usuario = usuario;
-                            progressDialog.dismiss();
-                            Intent intent2 = new Intent(MainActivity.this, mis_alumnos.class);
-                            startActivity(intent2);
-                            finish();
-                        }else{
-                            progressDialog.dismiss();
-                            Intent intent2 = new Intent(MainActivity.this, mis_alumnos.class);
-                            startActivity(intent2);
-                            finish();
+                        switch (perfil){
+                            case 1:
+                                Perfil = perfil;
+                                Usuario = usuario;
+                                progressDialog.dismiss();
+                                Intent intent = new Intent(MainActivity.this, mis_alumnos.class);
+                                startActivity(intent);
+                                finish();
+                                break;
+
+                            case 3:
+                                Perfil = perfil;
+                                Usuario = usuario;
+                                progressDialog.dismiss();
+                                Intent intent3 = new Intent(MainActivity.this, crud_superusuario.class);
+                                startActivity(intent3);
+                                finish();
+                                break;
                         }
 
                     }catch (Exception e){
@@ -279,21 +278,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception E) {
             return null;
         }
-    }
-
-    public void Dialogo(final String Titulo, String Mesange) { // Funcion para alertas Dialogo flotante
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        alertDialogBuilder.setTitle(Titulo);
-        alertDialogBuilder
-                .setMessage(Mesange)
-                .setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                })
-                .create().show();
     }
 
     private void consultarPermiso(String permission, Integer requestCode) { //consulta los permisos concedidos por el usuario

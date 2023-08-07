@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo_blanco">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Acciones"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/teal_700"/>
+
+        <Button
+            android:id="@+id/btn_listado"
+            android:layout_width="150dp"
+            android:layout_marginTop ="15dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Listado de Incidentes"
+            android:onClick="botones"
+            android:background="@drawable/btn_comun"
+            />
+
+        <Button
+            android:id="@+id/btn_registrar"
+            android:layout_width="150dp"
+            android:layout_marginTop ="15dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Registrar Incidente"
+            android:onClick="botones"
+            android:background="@drawable/btn_comun"
+            />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

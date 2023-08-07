@@ -6,30 +6,12 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".modulo_docente">
+    tools:context=".mis_alumnos">
 
     <!-- Contenido principal -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Alumnos"
-            android:textSize="25dp"
-            android:gravity="center_horizontal" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewAlumnos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
 
     <!-- Navigation Drawer -->
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/menu_lateral"
         android:layout_width="wrap_content"
@@ -45,5 +27,52 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/fondo"
         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp">
+
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/estudiantes"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Mis Alumnos"
+            android:textSize="35sp"
+            android:layout_marginTop="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/teal_700"/>
+    </LinearLayout>
+
+        <ListView
+            android:id="@+id/list_alumnos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="center"
+            android:scrollbarThumbVertical="@color/botones"
+            android:stackFromBottom="false"
+            android:textColor="#000000" />
+    </LinearLayout>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
