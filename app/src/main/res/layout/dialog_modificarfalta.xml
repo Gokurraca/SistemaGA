@@ -40,12 +40,14 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID Falta: " />
+                    android:text="ID Falta: "
+                    android:visibility="invisible"/>
                 <TextView
                     android:id="@+id/lbl_idFalta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="" />
+                    android:text=""
+                    android:visibility="invisible"/>
             </LinearLayout>
 
             <LinearLayout
@@ -72,7 +74,7 @@
                 android:layout_height="200dp"
                 android:hint="Ingrese descripción de falta"
                 android:textSize="16sp"
-                android:inputType="textMultiLine"
+                android:inputType="textCapSentences|textMultiLine"
                 android:textStyle="bold"
                 android:gravity="top"
                 android:paddingStart="10dp"

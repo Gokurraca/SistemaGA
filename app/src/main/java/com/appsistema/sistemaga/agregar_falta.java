@@ -174,7 +174,16 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
             if (result != null && result.size() > 0) {
                 // Obtener el texto hablado y mostrarlo en el EditText
                 String spokenText = result.get(0);
-                txt_descripcion.append(spokenText + " ");
+                // Primera letra en mayuscula del spech to text
+                if (!txt_descripcion.getText().toString().trim().equals("")) {
+                    spokenText =  spokenText.substring(1).toLowerCase(); // Letras en minuscula si hay texto
+
+                    txt_descripcion.append(spokenText + " ");
+                }
+                if (txt_descripcion.getText().toString().trim().equals("")) {
+                    spokenText = spokenText.substring(0, 1).toUpperCase() + spokenText.substring(1).toLowerCase(); // Primera letra en mayuscula
+                    txt_descripcion.append(spokenText + " ");
+                }
             }
         }
     }

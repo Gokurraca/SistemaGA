@@ -47,11 +47,10 @@ import java.util.Map;
 
 public class crud_superusuario extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-
     ProgressDialog progressDialog;
     Button btn_limpiar;
-    ImageButton btn_modificar1;
     Button btn_modificar;
+    ImageButton btn_modificar1;
     //ImageButton btn_modificar;
     ImageButton btn_agregar;
     ImageButton btn_eliminar;
@@ -61,9 +60,11 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
     Spinner sp_categoriaFalta;
     Spinner sp_falta;
     TextView txt_descripcion;
+    TextView txt_descripcion1;
     TextView lbl_idFalta;
     String opcion_IDfalta="";
     Integer TipoAccion=0;
+    Integer Accion=0;
 
     private int selectedItemId;
     private ImageButton btnMic;
@@ -79,7 +80,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
-        // Obtén el drawable del ProgressDialog y establece su color
+        // Obtén el drawable del ProgressDialog y establece s u color
         Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
         drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
         progressDialog.setIndeterminateDrawable(drawable);
@@ -108,21 +109,26 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         }
         return super.onOptionsItemSelected(item);
     }
-
+    public static boolean containsOnlyNumbers(String text) {
+        return text.matches("\\d+");
+    }
     public void botones(View view) { //Funcion donde se indica que hará cada botón
         if (view.getId() == btn_modificar1.getId()) {
             ShowdialogModificaFalta();
+            Accion=1;
         }
         if (view.getId() == btn_agregar.getId()) {
             ShowdialogAgregarFalta();
+            Accion=2;
         }
         if (view.getId() == btn_eliminar.getId()) {
             ShowdialogEliminarFalta();
+            Accion=3;
         }
     }
 
     @Override
-    public void onBackPressed (){ // Funcion de Boton atras
+    public void onBackPressed (){
         Intent intent2 = new Intent(crud_superusuario.this, MainActivity.class);
         startActivity(intent2);
         finish();
@@ -191,6 +197,16 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         btn_modificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                if (txt_descripcion.getText().toString().trim().equals("")){
+                    Toast.makeText(crud_superusuario.this, "Debe agregar una descripcion", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (containsOnlyNumbers(txt_descripcion.getText().toString().replaceAll("\\s",""))) {
+                    Toast.makeText(crud_superusuario.this, "La descripcion no puedo tener solo numeros", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 DialogoModificar("Modificar Falta","¿Esta seguro de modificar la falta?");
             }
         });
@@ -229,6 +245,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         sp_categoriaFalta.setOnItemSelectedListener(this);
         dialog.show();
 
+
         btnMic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,27 +258,24 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                 txt_descripcion.setText("");
             }
         });
+
         btn_guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
+                        @Override
             public void onClick(View v) {
-                String des = txt_descripcion.getText().toString().trim();
                 if (txt_descripcion.getText().toString().trim().equals("")){
                     Toast.makeText(crud_superusuario.this, "Debe agregar una descripcion", Toast.LENGTH_SHORT).show();
-
-                }else{
+                return;
+                }
+                if (containsOnlyNumbers(txt_descripcion.getText().toString().replaceAll("\\s",""))) {
+                    Toast.makeText(crud_superusuario.this, "La descripcion no puedo tener solo numeros", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                     Agregar tareaCargar = new Agregar();
                     tareaCargar.execute(host + "/guardarfalta/");
 
-                    }
             }
         });
     }
-
-
-
-
-
-
 
     private void ShowdialogEliminarFalta(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -453,10 +467,9 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         }
         @Override
         protected void onPostExecute(JSONObject result) {
-
-            JSONObject jsonObject = result;
             try {
-                 if (jsonObject.getString("status").trim().equals("OK")) {
+                JSONObject jsonObject = result;
+                if (jsonObject.getString("status").trim().equals("OK")) {
                     //Valido el tipo de perfil para redireccionar.
                     String mensaje = jsonObject.getString("Mensaje");
                     Toast.makeText(crud_superusuario.this, mensaje,Toast.LENGTH_LONG).show();
@@ -476,7 +489,6 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                 Log.e("hj",""+e);
                 Toast.makeText(crud_superusuario.this, "Error al conectar con el servidor  " + e, Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
@@ -632,7 +644,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                     sp_categoriaFalta.setSelection(0);
                     btn_modificar.setEnabled(false);
                 }
-                    if(TipoAccion.equals(2) ){
+                    if(TipoAccion.equals(2)){
                         btn_guardar.setEnabled(false);
                     }
                     if(TipoAccion.equals(3)){
@@ -709,6 +721,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == RESULT_OK && data != null) {
             // Obtener los resultados del reconocimiento de voz en forma de lista
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -716,7 +729,29 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
             if (result != null && result.size() > 0) {
                 // Obtener el texto hablado y mostrarlo en el EditText
                 String spokenText = result.get(0);
-                txt_descripcion.append(spokenText + " ");
+
+                if (Accion==1) { // Añadir
+                    if (!txt_descripcion.getText().toString().trim().equals("")) {
+                        spokenText =  spokenText.substring(1).toLowerCase(); // Letras en minuscula si hay texto
+                        txt_descripcion.append(spokenText + " ");
+                    }
+                    if (txt_descripcion.getText().toString().trim().equals("")) {
+                        spokenText = spokenText.substring(0, 1).toUpperCase() + spokenText.substring(1).toLowerCase(); // Primera letra en mayuscula
+                        txt_descripcion.append(spokenText + " ");
+                    }
+                return;}
+                if (Accion==2){ // Modificar
+                    if (!txt_descripcion.getText().toString().trim().equals("")) {
+                        spokenText =  spokenText.substring(1).toLowerCase(); // Letras en minuscula si hay texto
+                        txt_descripcion.append(spokenText + " ");
+                    }
+                    if (txt_descripcion.getText().toString().trim().equals("")) {
+                        spokenText = spokenText.substring(0, 1).toUpperCase() + spokenText.substring(1).toLowerCase(); // Primera letra en mayuscula
+                        txt_descripcion.append(spokenText + " ");
+                    }
+                }
+
+
             }
         }
     }

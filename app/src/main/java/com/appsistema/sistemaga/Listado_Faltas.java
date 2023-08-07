@@ -450,6 +450,8 @@ public class Listado_Faltas extends AppCompatActivity {
             finish();
         }
 
+
+
     }
     public void Dialogo(final String Titulo, String Mesange) {
 

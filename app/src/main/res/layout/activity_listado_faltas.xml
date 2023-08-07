@@ -29,15 +29,35 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp">
+
+
+
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:srcCompat="@drawable/lista"
+            android:layout_marginStart="5dp"
+
+            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Listado de Incidentes"
             android:textAlignment="center"
-            android:textSize="35dp"
+            android:textSize="30dp"
             android:textStyle="bold"
-            android:textColor="@color/teal_700"/>
+            android:textColor="@color/teal_700"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
 
 
         <LinearLayout
@@ -177,11 +197,11 @@
 
             <TextView
                 android:id="@+id/lbl_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Comentario"
+                android:layout_width="40dp"
+                android:layout_height="18dp"
                 android:layout_marginStart="80dp"
                 android:fontFamily="sans-serif-black"
+                android:text="Falta"
                 android:textSize="15sp" />
 
             <TextView
@@ -189,7 +209,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Categoria"
-                android:layout_marginStart="70dp"
+                android:layout_marginStart="110dp"
                 android:fontFamily="sans-serif-black"
                 android:textSize="15sp" />
 
@@ -197,7 +217,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <GridView

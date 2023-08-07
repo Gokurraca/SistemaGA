@@ -52,7 +52,7 @@
                 android:layout_height="200dp"
                 android:hint="Ingrese descripción de falta"
                 android:textSize="16sp"
-                android:inputType="textMultiLine"
+                android:inputType="textCapSentences|textMultiLine"
                 android:textStyle="bold"
                 android:gravity="top"
                 android:paddingStart="10dp"

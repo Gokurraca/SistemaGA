@@ -258,7 +258,7 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
                 startActivity(intent2);
                 finish();
             } else {
-                Dialogo("Alerta","No hay información de faltas");
+                Dialogo("Alerta","No hay información de Incidentes");
             }
         }
 
