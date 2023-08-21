@@ -311,38 +311,25 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
             try {
 
                 JSONObject jsonObject = result;
-
                 if (jsonObject.getString("status").trim().equals("OK")) {
-
                     JSONArray jsonArray = jsonObject.getJSONArray("datosAlumno");
-
                     ArrayList<String> listaCursos = new ArrayList<>();
                     ArrayList<String> listaAlumnos = new ArrayList<>();
-
                     for (int i = 0; i < jsonArray.length(); i++) {
-
                         try {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
                             String nombreCompleto = jsonObject1.getString("nombre_completo");
                             String curso = jsonObject1.getString("desc_curso");
                             String cod_curso = jsonObject1.getString("cod_curso");
                             id_curso=Integer.parseInt(cod_curso);
-
-
-
-
                             listaAlumnos.add(nombreCompleto);
                             listaCursos.add(curso);
-
                             ArrayAdapter<String> adapterCursos = new ArrayAdapter<>(agregar_falta.this, android.R.layout.simple_spinner_item, listaCursos);
                             adapterCursos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             sp_Curso.setAdapter(adapterCursos);
-
                             ArrayAdapter<String> adapterAlumnos = new ArrayAdapter<>(agregar_falta.this, android.R.layout.simple_spinner_item, listaAlumnos);
                             adapterAlumnos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             sp_alumnos.setAdapter(adapterAlumnos);
-
                         } catch (JSONException e) {
                             Toast.makeText(agregar_falta.this, "i " + e, Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
@@ -435,13 +422,9 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
             try {
 
                 JSONObject jsonObject = result;
-
                 if (jsonObject.getString("status").trim().equals("OK")) {
-
                     JSONArray jsonArray = jsonObject.getJSONArray("datoFalta");
-
                     ArrayList<Falta> listaFalta = new ArrayList<>();
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         try {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);

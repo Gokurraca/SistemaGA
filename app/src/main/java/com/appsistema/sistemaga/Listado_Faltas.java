@@ -45,6 +45,7 @@ public class Listado_Faltas extends AppCompatActivity {
 
     ProgressDialog progressDialog;
     GridView gridView;
+    Metodos m ;
     private DrawerLayout drawerLayout;
     String rut_alumno;
     String rut_funcionario;
@@ -159,22 +160,11 @@ public class Listado_Faltas extends AppCompatActivity {
                             String id_categoria = jsonObject1.getString("cat_falta");
                             String hora_det = jsonObject1.getString("hora_det");
                             String id_falta = jsonObject1.getString("id_falta");
-
                             String categoriaFalta="";
                             categoriaFalta = id_categoria;
-                            switch (categoriaFalta){
-                                case "1":
-                                    categoriaFalta = "Leve";
-                                    break;
-                                case "2":
-                                    categoriaFalta = "Grave";
-                                    break;
-                                case "3":
-                                    categoriaFalta = "Gravisima";
-                                    break;
-                            }
-
-                            items.add(new GridItem(fecha_det, comentario_detfala, categoriaFalta, hora_det, id_falta));
+                            categoriaFalta= m.Convierte(categoriaFalta);
+                            items.add(new GridItem(fecha_det, comentario_detfala,
+                                    categoriaFalta, hora_det, id_falta));
 
                             progressDialog.dismiss();
 

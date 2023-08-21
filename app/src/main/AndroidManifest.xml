@@ -34,11 +34,11 @@
             android:screenOrientation="fullSensor"
             android:exported="false" />
         <activity
-            android:name=".mis_alumnos"
-            android:screenOrientation="fullSensor"
-            android:exported="false" />
+            android:name=".agregar_falta_masivo"
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
         <activity
-            android:name=".modulo_docente"
+            android:name=".mis_alumnos"
             android:screenOrientation="fullSensor"
             android:exported="false" />
         <activity

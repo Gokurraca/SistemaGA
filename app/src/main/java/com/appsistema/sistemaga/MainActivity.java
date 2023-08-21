@@ -167,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... urls) {
 
             try {
-                //URL = urls[0];
                 return downloadUrlUsuario(urls[0]);
             } catch (Exception e) {
                 return null;
@@ -183,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = result;
                 if (jsonObject.getString("status").trim().equals("OK")) {
                     //Valido el tipo de perfil para redireccionar.
-                    Integer perfil = jsonObject.getInt("validacion");
+                    int perfil = jsonObject.getInt("validacion");
                     try {
                         switch (perfil){
                             case 1:
@@ -194,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                                 break;
-
                             case 3:
                                 Perfil = perfil;
                                 Usuario = usuario;
@@ -233,8 +231,6 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             InputStream is = null;
-            int len = 500;
-
             try {
                 URL url = new URL(myurl);
                 Map<String, Object> params = new LinkedHashMap<>();
@@ -268,8 +264,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("json", sb.toString());
                 return new JSONObject(sb.toString());
 
-                // Makes sure that the InputStream is closed after the app is
-                // finished using it.
+
             } finally {
                 if (is != null) {
                     is.close();
@@ -280,18 +275,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void consultarPermiso(String permission, Integer requestCode) { //consulta los permisos concedidos por el usuario
-        if (ContextCompat.checkSelfPermission(MainActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
-
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
-
-            } else {
-
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
-            }
-        }
-    }
 
 }
