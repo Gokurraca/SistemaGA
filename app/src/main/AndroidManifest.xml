@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.appsistema.sistemaga">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
@@ -35,13 +34,17 @@
             android:screenOrientation="fullSensor"
             android:exported="false" />
         <activity
+            android:name=".agregar_falta_masivo"
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
+        <activity
             android:name=".mis_alumnos"
             android:screenOrientation="fullSensor"
             android:exported="false" />
         <activity
-            android:name=".modulo_docente"
-            android:screenOrientation="fullSensor"
-            android:exported="false" />
+            android:name=".configuracion"
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".Listado_Faltas"
             android:exported="false"

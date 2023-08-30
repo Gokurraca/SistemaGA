@@ -5,7 +5,7 @@
         android:title="Mis alumnos" />
     <item
         android:id="@+id/menu_faltas"
-        android:title="Registro de faltas otros cursos" />
+        android:title="Registro de Incidentes General" />
     <item
         android:id="@+id/menu_salir"
         android:title="Salir" />

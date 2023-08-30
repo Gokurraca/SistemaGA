@@ -57,6 +57,7 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
     String rut_funcionario;
     ProgressDialog progressDialog;
     TextView txt_descripcion;
+    Integer id_curso;
     Integer opcion_CategoriaFalta = 0;
     String opcion_IDfalta = "";
     Button btn_registrarFalta;
@@ -94,12 +95,15 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
         btnMic = findViewById(R.id.btnMic);
         btn_limpiar = findViewById(R.id.btn_limpiar);
 
+
+
         //Recuperar datos de la vista anterior
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String Nombre = bundle.getString("nombreAlumno");
         String rutAlumno = bundle.getString("rutAlumno");
         String rutFuncionario = bundle.getString("rutFuncionario");
+
         //setea parametros
         rut_alumno = rutAlumno;
         rut_funcionario = rutFuncionario;
@@ -121,6 +125,7 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
         //carga los alumnos
         GetAlumno tareaCargar = new GetAlumno();
         tareaCargar.execute(host + "/datosAlumno/");
+
 
         //crea lista para spinner de categoria de faltas
         ArrayList<String> listaCategorias = new ArrayList<>();
@@ -176,7 +181,7 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
                 String spokenText = result.get(0);
                 // Primera letra en mayuscula del spech to text
                 if (!txt_descripcion.getText().toString().trim().equals("")) {
-                    spokenText =  spokenText.substring(1).toLowerCase(); // Letras en minuscula si hay texto
+                    spokenText =  spokenText.substring(0).toLowerCase(); // Letras en minuscula si hay texto
 
                     txt_descripcion.append(spokenText + " ");
                 }
@@ -214,16 +219,27 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
         }
         return super.onOptionsItemSelected(item);
     }
+    public static boolean containsOnlyNumbers(String text) {
+        return text.matches("\\d+");
+    }
 
     private void registrarFalta(){
-        if(!opcion_IDfalta.equals(null) && !opcion_CategoriaFalta.equals(0)){
-            //Guarda Registro de falta x los alumnos
-            GuardarRegistro tareaCargar = new GuardarRegistro();
+
+            if(opcion_IDfalta.equals(null) || opcion_CategoriaFalta.equals(0)){
+                Toast.makeText(agregar_falta.this, "Debe seleccionar una categoria", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (txt_descripcion.getText().toString().trim().equals("")){
+                Toast.makeText(agregar_falta.this, "Debe ingresar una descripcion par este Incidente", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (containsOnlyNumbers(txt_descripcion.getText().toString().replaceAll("\\s",""))) {
+                Toast.makeText(agregar_falta.this, "La descripcion no puedo tener solo numeros", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            agregar_falta.GuardarRegistro tareaCargar = new agregar_falta.GuardarRegistro();
             tareaCargar.execute(host + "/guardarRegistro/");
-        }else{
-            Dialogo("Alerta","Debe seleccionar una categoría de falta");
         }
-    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // Verifica qué Spinner se activó
@@ -295,33 +311,25 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
             try {
 
                 JSONObject jsonObject = result;
-
                 if (jsonObject.getString("status").trim().equals("OK")) {
-
                     JSONArray jsonArray = jsonObject.getJSONArray("datosAlumno");
-
                     ArrayList<String> listaCursos = new ArrayList<>();
                     ArrayList<String> listaAlumnos = new ArrayList<>();
-
                     for (int i = 0; i < jsonArray.length(); i++) {
-
                         try {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
                             String nombreCompleto = jsonObject1.getString("nombre_completo");
                             String curso = jsonObject1.getString("desc_curso");
-
+                            String cod_curso = jsonObject1.getString("cod_curso");
+                            id_curso=Integer.parseInt(cod_curso);
                             listaAlumnos.add(nombreCompleto);
                             listaCursos.add(curso);
-
                             ArrayAdapter<String> adapterCursos = new ArrayAdapter<>(agregar_falta.this, android.R.layout.simple_spinner_item, listaCursos);
                             adapterCursos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             sp_Curso.setAdapter(adapterCursos);
-
                             ArrayAdapter<String> adapterAlumnos = new ArrayAdapter<>(agregar_falta.this, android.R.layout.simple_spinner_item, listaAlumnos);
                             adapterAlumnos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             sp_alumnos.setAdapter(adapterAlumnos);
-
                         } catch (JSONException e) {
                             Toast.makeText(agregar_falta.this, "i " + e, Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
@@ -414,13 +422,9 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
             try {
 
                 JSONObject jsonObject = result;
-
                 if (jsonObject.getString("status").trim().equals("OK")) {
-
                     JSONArray jsonArray = jsonObject.getJSONArray("datoFalta");
-
                     ArrayList<Falta> listaFalta = new ArrayList<>();
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         try {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -606,6 +610,7 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
             Detalle.put("comentario_detfala", txt_descripcion.getText().toString().trim());
             Detalle.put("fecha_det_falta", fechaActual);
             Detalle.put("hora_det_falta", horaActual);
+            Detalle.put("cod_curso",id_curso);
             Registro.put(Detalle);
 
             Json.put("Detalle", Registro);

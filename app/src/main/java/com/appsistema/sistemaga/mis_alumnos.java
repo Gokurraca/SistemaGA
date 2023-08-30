@@ -49,11 +49,7 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
     ProgressDialog progressDialog;
     private DrawerLayout drawerLayout;
     private ListView list_alumnos;
-    TextView txtFaltaLeve;
-    TextView txtFaltaGrave;
-    TextView txtFaltaGravisima;
-    TextView txtNombreAlumno;
-    private List<String> items;
+
     static String Nombre = "";
     Integer faltaleve=0;
     Integer faltagrave=0;
@@ -75,14 +71,6 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
         Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
         drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
         progressDialog.setIndeterminateDrawable(drawable);
-
-       /* txtNombreAlumno = findViewById(R.id.txt_nombreAlumno);
-        txtFaltaLeve = findViewById(R.id.txt_FaltaLeve);
-        txtFaltaGrave = findViewById(R.id.txt_FaltaGrave);
-        txtFaltaGravisima = findViewById(R.id.txt_FaltaGravisima);
-
-        */
-
         list_alumnos  =findViewById(R.id.list_alumnos);
         drawerLayout = findViewById(R.id.drawer_layout);
 
@@ -115,13 +103,9 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
                 JSONObject jsonObject = result;
 
                 if (jsonObject.getString("status").trim().equals("OK")) {
-
                     JSONArray jsonArray = jsonObject.getJSONArray("faltas_alumnos");
-
                     List<AlumnoListado> listaAlumnos = new ArrayList<>();
-
                     for (int i = 0; i < jsonArray.length(); i++) {
-
                         try {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             Nombre = jsonObject1.getString("NombreApellido");
@@ -129,25 +113,20 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
                             String faltaLeve = jsonObject1.getString("cantidad_cat1");
                             String faltaGrave = jsonObject1.getString("cantidad_cat2");
                             String faltaGravisima = jsonObject1.getString("cantidad_cat3");
-
-                            AlumnoListado alumno = new AlumnoListado(Nombre, Integer.parseInt(faltaLeve), Integer.parseInt(faltaGrave), Integer.parseInt(faltaGravisima),txt_rutAlumno);
+                            AlumnoListado alumno = new AlumnoListado(Nombre, Integer.parseInt(faltaLeve),
+                                    Integer.parseInt(faltaGrave), Integer.parseInt(faltaGravisima),txt_rutAlumno);
                             listaAlumnos.add(alumno);
                             progressDialog.dismiss();
-
                         } catch (JSONException e) {
                             Toast.makeText(mis_alumnos.this, "i " + e, Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
                     }
-
                     ListView listView = findViewById(R.id.list_alumnos);
-
                     // Crear el adaptador para mostrar listado alumnos.
                     AlumnosAdapter adapter = new AlumnosAdapter(mis_alumnos.this, listaAlumnos);
-
                     // Establecer el adaptador en el ListView
                     listView.setAdapter(adapter);
-
                     // Manejar el clic en un elemento del ListView
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -161,42 +140,6 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
                             showOpcionesDialog();
                         }
                     });
-
-                    // Obtener una referencia al ListView en tu actividad
-                   /* ListView listView = findViewById(R.id.list_alumnos);
-
-                    // Crear el adaptador para mostrar listado alumnos.
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(mis_alumnos.this, R.layout.device_name, items) {
-                        @NonNull
-                        @Override
-                        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                            TextView textView = (TextView) super.getView(position, convertView, parent);
-
-                            // Crea un SpannableString con el texto y el color deseado
-                            String item = getItem(position);
-                            SpannableString spannableString = new SpannableString(item);
-                            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#757575"));
-                            //StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
-                            spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            // Establece el SpannableString como texto del TextView
-                            textView.setText(spannableString);
-
-                            return textView;
-                        }
-                    };
-
-                    // Establecer el adaptador en el ListView
-                    listView.setAdapter(adapter);
-
-                    // Manejar el clic en un elemento del ListView
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String Alumno = items.get(position);
-                            data = Alumno;
-                            showOpcionesDialog();
-                        }
-                    });*/
 
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String mensaje = jsonObject.getString("Mensaje");
@@ -364,8 +307,13 @@ public class mis_alumnos extends AppCompatActivity{  //implements AlumnosAdapter
                 startActivity(intent1);
                 finish();
                 break;
-
-           case R.id.menu_salir: // Listado de faltas
+            case R.id.menu_faltas: // Registro de Incidentes Masivo
+                //Toast.makeText(getApplicationContext(), "Opción Registro de faltas seleccionada", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mis_alumnos.this, agregar_falta_masivo.class);
+                startActivity(intent);
+                finish();
+                break;
+           case R.id.menu_salir: // Salir
                Intent intent2 = new Intent(mis_alumnos.this, MainActivity.class);
                startActivity(intent2);
                finish();

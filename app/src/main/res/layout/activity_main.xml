@@ -15,25 +15,22 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:orientation="horizontal">
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
                 android:gravity="right"
-                android:orientation="horizontal">
+                android:paddingTop="1dp">
 
-
+                <ImageView
+                    android:id="@+id/btn_configurar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/imgconfi"
+                    android:onClick="botones"/>
             </LinearLayout>
 
             <LinearLayout
@@ -43,8 +40,17 @@
                 android:orientation="vertical"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="45dp"
                 android:visibility="visible">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Sistema Gestion RICE"
+                    android:textAlignment="center"
+                    android:textColor="@color/purple_700"
+                    android:textSize="35sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_login"
@@ -52,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="botones"
                     android:text="Login"
-                    android:layout_marginTop="150dp"
+                    android:layout_marginTop="100dp"
                     android:background="@drawable/btn_comun"
                     android:textColor="@color/white"/>
 

@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".agregar_falta">
+    tools:context=".agregar_falta_masivo">
 
     <!-- Contenido principal -->
 
@@ -40,23 +40,27 @@
             android:orientation="vertical"
             android:paddingTop="5dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Registro de Incidentes"
-                android:textAlignment="center"
-                android:textSize="35sp"
-                android:textStyle="bold"
-                android:textColor="@color/teal_700"/>
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/foradd"
+                    android:layout_marginStart="5dp"
+                    />
 
-            <TextView
-                android:id="@+id/lbl_alumno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="Alumno"
-                android:visibility="invisible"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Registro de Incidentes"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/teal_700"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,22 +112,20 @@
                 android:orientation="vertical"
                 android:paddingTop="10dp"/>
 
-                <EditText
-                    android:id="@+id/txt_descripcion"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:hint="Ingrese descripción de falta"
-                    android:textSize="16sp"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:textStyle="bold"
-                    android:gravity="top"
-                    android:paddingStart="10dp"
-                    android:paddingTop="5dp"
-                    android:background="@drawable/diseno_edittext"
-                    android:maxLines="10"
-                    android:scrollbars="vertical" />
-
-
+            <EditText
+                android:id="@+id/txt_descripcion"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:hint="Ingrese descripción del Incidente"
+                android:textSize="16sp"
+                android:inputType="textCapSentences|textMultiLine"
+                android:textStyle="bold"
+                android:gravity="top"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:background="@drawable/diseno_edittext"
+                android:maxLines="10"
+                android:scrollbars="vertical" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,6 +138,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignBottom="@id/txt_descripcion"
+                    android:layout_alignParentEnd="true"
                     android:background="?attr/selectableItemBackground"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_mic" />

@@ -47,6 +47,8 @@ import java.util.Map;
 
 public class crud_superusuario extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
+
+    Metodos m ;
     ProgressDialog progressDialog;
     Button btn_limpiar;
     Button btn_modificar;
@@ -262,16 +264,17 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         btn_guardar.setOnClickListener(new View.OnClickListener() {
                         @Override
             public void onClick(View v) {
+                   String  categoria= m.Convierte(opcion_CategoriaFalta.toString());
                 if (txt_descripcion.getText().toString().trim().equals("")){
-                    Toast.makeText(crud_superusuario.this, "Debe agregar una descripcion", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(crud_superusuario.this, "Debe agregar una descripcion",
+                            Toast.LENGTH_SHORT).show();
                 return;
                 }
-                if (containsOnlyNumbers(txt_descripcion.getText().toString().replaceAll("\\s",""))) {
-                    Toast.makeText(crud_superusuario.this, "La descripcion no puedo tener solo numeros", Toast.LENGTH_SHORT).show();
+                if (containsOnlyNumbers(txt_descripcion.getText().toString(). replaceAll("\\s",""))) {
+                    Toast.makeText(crud_superusuario.this,"La descripcion no puedo tener solo numeros", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                    Agregar tareaCargar = new Agregar();
-                    tareaCargar.execute(host + "/guardarfalta/");
+                DialogoAgregar("Registrar Falta","¿Esta seguro de Registrar la falta con categoria "+categoria+"?");
 
             }
         });
@@ -344,6 +347,28 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                         // Acción a realizar cuando se selecciona "Sí"
                         Modificar tareaCargar = new Modificar();
                         tareaCargar.execute(host + "/modificarfalta/");
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Acción a realizar cuando se selecciona "No" o se cancela el diálogo
+                        dialog.cancel(); // Cierra el diálogo sin realizar ninguna acción
+                    }
+                })
+                .create().show();
+    }
+
+    public void DialogoAgregar(final String Titulo, String Mesange) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(crud_superusuario.this);
+        alertDialogBuilder.setTitle(Titulo);
+        alertDialogBuilder
+                .setMessage(Mesange)
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Acción a realizar cuando se selecciona "Sí"
+                        crud_superusuario.Agregar tareaCargar = new crud_superusuario.Agregar();
+                        tareaCargar.execute(host + "/guardarfalta/");
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -651,17 +676,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                         btn_eliminarFalta.setEnabled(false);
                     }
             } else {
-                switch (opcionSeleccionada) {
-                    case "Leve":
-                        opcion_CategoriaFalta = 1;
-                        break;
-                    case "Grave":
-                        opcion_CategoriaFalta = 2;
-                        break;
-                    case "Gravísima":
-                        opcion_CategoriaFalta = 3;
-                        break;
-                }
+               opcion_CategoriaFalta=m.Convierte1(opcionSeleccionada.toString());
                 switch (TipoAccion){
                     case 1:
                         GetFalta tareaCargar = new GetFalta();
@@ -712,7 +727,6 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-
         // Iniciar la actividad del reconocimiento de voz
         startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
     }
@@ -720,8 +734,6 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == RESULT_OK && data != null) {
             // Obtener los resultados del reconocimiento de voz en forma de lista
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -732,7 +744,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
 
                 if (Accion==1) { // Añadir
                     if (!txt_descripcion.getText().toString().trim().equals("")) {
-                        spokenText =  spokenText.substring(1).toLowerCase(); // Letras en minuscula si hay texto
+                        spokenText =  spokenText.substring(0).toLowerCase(); // Letras en minuscula si hay texto
                         txt_descripcion.append(spokenText + " ");
                     }
                     if (txt_descripcion.getText().toString().trim().equals("")) {
@@ -742,7 +754,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                 return;}
                 if (Accion==2){ // Modificar
                     if (!txt_descripcion.getText().toString().trim().equals("")) {
-                        spokenText =  spokenText.substring(1).toLowerCase(); // Letras en minuscula si hay texto
+                        spokenText =  spokenText.substring(0).toLowerCase(); // Letras en minuscula si hay texto
                         txt_descripcion.append(spokenText + " ");
                     }
                     if (txt_descripcion.getText().toString().trim().equals("")) {
