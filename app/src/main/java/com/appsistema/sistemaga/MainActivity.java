@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (view.getId() == R.id.btn_salir) {
             //cierra la aplicacion
-            //finish();
+
             System.exit(0);
 
         }
