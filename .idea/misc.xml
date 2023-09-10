@@ -2,23 +2,49 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/btn_comun.xml" value="0.314" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/btn_salir.xml" value="0.314" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/dialog_background.xml" value="0.314" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/diseno_comentario.xml" value="0.22" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/diseno_spinner.xml" value="0.231" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/grid_item_layout.xml" value="0.363" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/ic_launcher_background.xml" value="0.231" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_mis_alumnos.xml" value="0.3489583333333333" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_modulo_docente.xml" value="0.36302083333333335" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/btn_comu.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/btn_comun.xml" value="0.36302083333333335" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_login.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/drawerlayoutinicio.xml" value="0.14270833333333333" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/grid_item_layout.xml" value="0.36302083333333335" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/tarjeta_alumnos.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/rta98/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/menu/drawer_menu.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/AppData/Local/Android/Sdk/platforms/android-33/data/res/layout/simple_spinner_item.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/btn_comun.xml" value="0.314" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/btn_salir.xml" value="0.314" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/cardview_border.xml" value="0.121" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/dialog_background.xml" value="0.314" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/dialog_rounder_background.xml" value="0.181" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/diseno_comentario.xml" value="0.22" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/diseno_edittext.xml" value="0.1285" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/diseno_spinner.xml" value="0.231" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/grid_item_layout.xml" value="0.363" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/drawable/ic_launcher_background.xml" value="0.231" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_agregar_falta.xml" value="0.4260869565217391" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_agregar_falta_masivo.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_configuracion.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_crud_superusuario.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_detalle_alumno.xml" value="0.3229166666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_listado_faltas.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_mis_alumnos.xml" value="0.3489583333333333" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_mis_alumnos2.xml" value="0.3229166666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_mis_alumnos_apoderado.xml" value="0.35190217391304346" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_modulo_docente.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/activity_test.xml" value="0.1859375" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/btn_comu.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/btn_comun.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/device_name.xml" value="0.3229166666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_agregarfalta.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_detalle_alumno.xml" value="0.35190217391304346" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_eliminarfalta.xml" value="0.2758152173913043" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_login.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_modificarfalta.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_opcionesmantenedor.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_ver.xml" value="0.35190217391304346" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/dialog_ver_cre.xml" value="0.3229166666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/diseno_grilla.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/drawer_menu_superusuario.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/drawerlayoutinicio.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/grid_item_layout.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/listado_alumnos.xml" value="0.1859375" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/layout/tarjeta_alumnos.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/menu/drawer_menu.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/menu/drawer_menu_apoderado.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/sebas/OneDrive/Escritorio/Advicom/Desarrollo/SistemaGA/app/src/main/res/menu/drawer_menu_superusuario.xml" value="0.271484375" />
       </map>
     </option>
   </component>

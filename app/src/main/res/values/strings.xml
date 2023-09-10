@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">SistemaGR</string>
-    <string name="Version">SGR Versión 1.0.7</string>
+    <string name="app_name">SGR</string>
+    <string name="Version">SGR Versión 2.0 </string>
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
 </resources>

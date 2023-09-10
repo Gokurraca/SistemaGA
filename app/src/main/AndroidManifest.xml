@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.appsistema.sistemaga">
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
@@ -17,30 +18,31 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_iconoapk"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_iconoapk"
         android:supportsRtl="true"
         android:theme="@style/Theme.SistemaGA"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".crud_superusuario"
-            android:screenOrientation="fullSensor"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="fullSensor"/>
+        <activity
+            android:name=".mis_alumnosApoderado"
+            android:exported="false"
+            android:screenOrientation="fullSensor"/>
         <activity
             android:name=".agregar_falta_masivo"
             android:exported="false"
             android:screenOrientation="fullSensor" />
-        <activity
-            android:name=".mis_alumnos"
-            android:screenOrientation="fullSensor"
-            android:exported="false" />
         <activity
             android:name=".configuracion"
             android:exported="false"
@@ -54,8 +56,11 @@
             android:exported="false"
             android:screenOrientation="fullSensor" />
         <activity
+            android:name=".mis_alumnos"
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
+        <activity
             android:name=".MainActivity"
-            android:screenOrientation="fullSensor"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

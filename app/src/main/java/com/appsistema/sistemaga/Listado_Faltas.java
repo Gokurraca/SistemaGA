@@ -3,26 +3,35 @@ package com.appsistema.sistemaga;
 import static com.appsistema.sistemaga.MainActivity.Perfil;
 import static com.appsistema.sistemaga.MainActivity.host;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,9 +52,8 @@ import java.util.Map;
 
 public class Listado_Faltas extends AppCompatActivity {
 
-    ProgressDialog progressDialog;
+
     GridView gridView;
-    Metodos m ;
     private DrawerLayout drawerLayout;
     String rut_alumno;
     String rut_funcionario;
@@ -72,17 +80,6 @@ public class Listado_Faltas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado_faltas);
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Cargando datos...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        // Obtén el drawable del ProgressDialog y establece s u color
-        Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
-        drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
-        progressDialog.setIndeterminateDrawable(drawable);
-
         txt_FaltaLeve  =findViewById(R.id.txt_FaltaLeve);
         txt_FaltaGrave  =findViewById(R.id.txt_FaltaGrave);
         txt_FaltaGravisima  =findViewById(R.id.txt_FaltaGravisima);
@@ -117,7 +114,8 @@ public class Listado_Faltas extends AppCompatActivity {
     private void TraeDatos(){
 
         //carga los alumnos
-        GetFaltasxAlumno tareaCargar = new GetFaltasxAlumno();
+        Listado_Faltas.GetFaltasxAlumno tareaCargar = new Listado_Faltas.GetFaltasxAlumno();
+        ProgressDialogHelper.showProgressDialog(this,"Cargando Datos");
         tareaCargar.execute(host + "/cargafaltasAlumno/");
 
     }
@@ -160,17 +158,28 @@ public class Listado_Faltas extends AppCompatActivity {
                             String id_categoria = jsonObject1.getString("cat_falta");
                             String hora_det = jsonObject1.getString("hora_det");
                             String id_falta = jsonObject1.getString("id_falta");
+
                             String categoriaFalta="";
                             categoriaFalta = id_categoria;
-                            categoriaFalta= m.Convierte(categoriaFalta);
-                            items.add(new GridItem(fecha_det, comentario_detfala,
-                                    categoriaFalta, hora_det, id_falta));
+                            switch (categoriaFalta){
+                                case "1":
+                                    categoriaFalta = "Leve";
+                                    break;
+                                case "2":
+                                    categoriaFalta = "Grave";
+                                    break;
+                                case "3":
+                                    categoriaFalta = "Gravisima";
+                                    break;
+                            }
 
-                            progressDialog.dismiss();
+                            items.add(new GridItem(fecha_det, comentario_detfala, categoriaFalta, hora_det, id_falta));
+
+                            ProgressDialogHelper.ocultarProgressDialog();
 
                         } catch (JSONException e) {
                             Toast.makeText(Listado_Faltas.this, "i " + e, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            ProgressDialogHelper.ocultarProgressDialog();
                         }
                     }
 
@@ -188,7 +197,7 @@ public class Listado_Faltas extends AppCompatActivity {
                             hora = horaDetFalta;
                             idfalta = id_falta;
                             //cargo datos para pasar al AlertDialog
-                            CargaDetalle tareaCargar = new CargaDetalle();
+                            Listado_Faltas.CargaDetalle tareaCargar = new Listado_Faltas.CargaDetalle();
                             tareaCargar.execute(host + "/cargadetalle/");
 
                         }
@@ -197,13 +206,13 @@ public class Listado_Faltas extends AppCompatActivity {
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String mensaje = jsonObject.getString("Mensaje");
                     Dialogo("Alerta",mensaje);
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(Listado_Faltas.this, "i ", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj",""+e);
                 Toast.makeText(Listado_Faltas.this, "ERROR "+e, Toast.LENGTH_SHORT).show();
             }
@@ -291,7 +300,7 @@ public class Listado_Faltas extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             Toast.makeText(Listado_Faltas.this, "error " + e, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            ProgressDialogHelper.ocultarProgressDialog();
                         }
                     }
                     switch (categoria){
@@ -320,13 +329,13 @@ public class Listado_Faltas extends AppCompatActivity {
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String mensaje = jsonObject.getString("Mensaje");
                     Toast.makeText(Listado_Faltas.this, mensaje, Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(Listado_Faltas.this, "i ", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj", "" + e);
                 Toast.makeText(Listado_Faltas.this, "ERROR " + e, Toast.LENGTH_SHORT).show();
             }
@@ -439,8 +448,11 @@ public class Listado_Faltas extends AppCompatActivity {
             startActivity(intent2);
             finish();
         }
-
-
+        if (Perfil.equals(2)){
+            Intent intent2 = new Intent(Listado_Faltas.this, mis_alumnosApoderado.class);
+            startActivity(intent2);
+            finish();
+        }
 
     }
     public void Dialogo(final String Titulo, String Mesange) {

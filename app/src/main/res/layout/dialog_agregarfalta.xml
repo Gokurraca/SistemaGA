@@ -31,7 +31,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,7 +62,7 @@
                 android:background="@drawable/diseno_edittext"
                 android:maxLines="10"
                 android:scrollbars="vertical"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"/>
 
             <ImageButton
                 android:id="@+id/btnMic"
@@ -73,13 +75,16 @@
                 android:background="?attr/selectableItemBackground"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_mic" />
+
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="15dp">
 
             <Button
                 android:id="@+id/btn_guardar"

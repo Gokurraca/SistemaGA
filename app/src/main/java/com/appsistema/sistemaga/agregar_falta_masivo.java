@@ -1,7 +1,8 @@
 package com.appsistema.sistemaga;
 
-import static com.appsistema.sistemaga.MainActivity.Usuario;
 import static com.appsistema.sistemaga.MainActivity.host;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -25,7 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,14 +45,16 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import static com.appsistema.sistemaga.MainActivity.Usuario;
 
 public class agregar_falta_masivo extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-
+    TextView lbl_alumno;
     Spinner sp_Curso;
     Spinner sp_alumnos;
     Spinner sp_CategoriaFalta;
     Spinner sp_falta;
+    String rut_alumno;
     String rut_funcionario;
     ProgressDialog progressDialog;
     TextView txt_descripcion;
@@ -75,20 +78,7 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_falta_masivo);
-
         rut_funcionario = Usuario;
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Cargando datos...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        // Obtén el drawable del ProgressDialog y establece s u color
-        Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
-        drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
-        progressDialog.setIndeterminateDrawable(drawable);
-
-
         sp_Curso = findViewById(R.id.sp_Curso);
         sp_alumnos = findViewById(R.id.sp_alumnos);
         sp_CategoriaFalta = findViewById(R.id.sp_CategoriaFalta);
@@ -115,7 +105,7 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
         });
 
         //carga los alumnos
-        GetCurso tareaCargar = new GetCurso();
+        agregar_falta_masivo.GetCurso tareaCargar = new agregar_falta_masivo.GetCurso();
         tareaCargar.execute(host + "/datoscurso/");
 
         //crea lista para spinner de categoria de faltas
@@ -195,7 +185,8 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
                     return;
                 }
 
-                GuardarRegistro tareaCargar = new GuardarRegistro();
+                agregar_falta_masivo.GuardarRegistro tareaCargar = new agregar_falta_masivo.GuardarRegistro();
+                ProgressDialogHelper.showProgressDialog(this,"Procesando...");
                 tareaCargar.execute(host + "/guardarRegistro/");
     }
 
@@ -230,27 +221,27 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
         @Override
         protected void onPostExecute(String result) {
             if(result.equals("ERROR")){
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
             }else {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
 
                     if (jsonObject.getString("status").trim().equals("OK")) {
-                        progressDialog.dismiss();
+                        ProgressDialogHelper.ocultarProgressDialog();
                         DialogoExito("Alerta","Registro guardado correctamente");
 
                     } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                         String mensaje = jsonObject.getString("Mensaje");
                         Toast.makeText(agregar_falta_masivo.this, mensaje, Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
+                        ProgressDialogHelper.ocultarProgressDialog();
                         Toast.makeText(agregar_falta_masivo.this, "error ", Toast.LENGTH_SHORT).show();
                     } else {
-                        progressDialog.dismiss();
+                        ProgressDialogHelper.ocultarProgressDialog();
                         Toast.makeText(agregar_falta_masivo.this, "i ", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Log.e("hj", "" + e);
                     Toast.makeText(agregar_falta_masivo.this, "Error " + e, Toast.LENGTH_SHORT).show();
                 }
@@ -371,31 +362,24 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
 
                     ArrayList<Curso> listaCursos = new ArrayList<>();
                     listaCursos.add(new Curso("", "Seleccione Curso"));
-
                     for (int i = 0; i < jsonArray.length(); i++) {
-
                         try {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
                             String cod_curso = jsonObject1.getString("cod_curso");
                             String desc_curso = jsonObject1.getString("desc_curso");
-
                             Curso curso = new Curso(cod_curso, desc_curso);
-
                             listaCursos.add(curso);
-
                         } catch (JSONException e) {
                             Toast.makeText(agregar_falta_masivo.this, "i " + e, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            ProgressDialogHelper.ocultarProgressDialog();
                         }
                     }
-
-                    ArrayAdapter<Curso> adapterCursos = new ArrayAdapter<>(agregar_falta_masivo.this, android.R.layout.simple_spinner_item, listaCursos);
+                    ArrayAdapter<Curso> adapterCursos = new ArrayAdapter<>(agregar_falta_masivo.this,
+                            android.R.layout.simple_spinner_item, listaCursos);
                     // Define cómo se mostrarán los elementos en la lista desplegable
                     adapterCursos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     // Establece el adaptador en el Spinner
                     sp_Curso.setAdapter(adapterCursos);
-
                     sp_Curso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -407,7 +391,7 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
                                 opcion_idCurso = codigoCursoSeleccionado;
                                 //carga las alumno según curso
                                 if(!opcion_idCurso.equals("")){
-                                    GetAlumnoxCurso tareaCargar1 = new GetAlumnoxCurso();
+                                    agregar_falta_masivo.GetAlumnoxCurso tareaCargar1 = new agregar_falta_masivo.GetAlumnoxCurso();
                                     tareaCargar1.execute(host + "/alumnosxcurso/");
                                 }
                             }
@@ -421,13 +405,13 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
                 } else if (jsonObject.getString("status").trim().equals("error")) {
                     String mensaje = jsonObject.getString("mensaje");
                     Toast.makeText(agregar_falta_masivo.this, mensaje, Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(agregar_falta_masivo.this, "i ", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj", "" + e);
                 Toast.makeText(agregar_falta_masivo.this, "ERROR " + e, Toast.LENGTH_SHORT).show();
             }
@@ -532,19 +516,19 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
                     case "Leve":
                         opcion_CategoriaFalta = 1;
                         //carga las falta según categoria
-                        GetFalta tareaCargar = new GetFalta();
+                        agregar_falta_masivo.GetFalta tareaCargar = new agregar_falta_masivo.GetFalta();
                         tareaCargar.execute(host + "/faltas/");
                         break;
                     case "Grave":
                         opcion_CategoriaFalta = 2;
                         //carga las falta según categoria
-                        GetFalta tareaCargar1 = new GetFalta();
+                        agregar_falta_masivo.GetFalta tareaCargar1 = new agregar_falta_masivo.GetFalta();
                         tareaCargar1.execute(host + "/faltas/");
                         break;
                     case "Gravísima":
                         opcion_CategoriaFalta = 3;
                         //carga las falta según categoria
-                        GetFalta tareaCargar2 = new GetFalta();
+                        agregar_falta_masivo.GetFalta tareaCargar2 = new agregar_falta_masivo.GetFalta();
                         tareaCargar2.execute(host + "/faltas/");
                         break;
                 }
@@ -588,12 +572,13 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
             try {
 
                 JSONObject jsonObject = result;
+                ArrayList<Falta> listaFalta = new ArrayList<>();
 
                 if (jsonObject.getString("status").trim().equals("OK")) {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("datoFalta");
 
-                    ArrayList<Falta> listaFalta = new ArrayList<>();
+
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         try {
@@ -606,7 +591,7 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
                             listaFalta.add(falta);
                         } catch (JSONException e) {
                             Toast.makeText(agregar_falta_masivo.this, "error " + e, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            ProgressDialogHelper.ocultarProgressDialog();
                         }
                     }
 
@@ -617,16 +602,21 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
                     // Establece el adaptador en el Spinner
                     sp_falta.setAdapter(adapterFalta);
 
+
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String mensaje = jsonObject.getString("Mensaje");
                     Toast.makeText(agregar_falta_masivo.this, mensaje, Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
+                    listaFalta.clear();
+                    ArrayAdapter<Falta> adapterFalta = new ArrayAdapter<>(agregar_falta_masivo.this, android.R.layout.simple_spinner_item, listaFalta);
+                    adapterFalta.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    sp_falta.setAdapter(adapterFalta);
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(agregar_falta_masivo.this, "i ", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj", "" + e);
                 Toast.makeText(agregar_falta_masivo.this, "ERROR " + e, Toast.LENGTH_SHORT).show();
             }
@@ -719,7 +709,7 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
 
                         } catch (JSONException e) {
                             Toast.makeText(agregar_falta_masivo.this, "error " + e, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            ProgressDialogHelper.ocultarProgressDialog();
                         }
                     }
 
@@ -749,13 +739,13 @@ public class agregar_falta_masivo extends AppCompatActivity implements AdapterVi
                     sp_CategoriaFalta.setSelection(0);
                     txt_descripcion.setText("");
                     Toast.makeText(agregar_falta_masivo.this, mensaje, Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(agregar_falta_masivo.this, "i ", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj", "" + e);
                 Toast.makeText(agregar_falta_masivo.this, "ERROR " + e, Toast.LENGTH_SHORT).show();
             }

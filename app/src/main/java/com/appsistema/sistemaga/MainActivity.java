@@ -1,12 +1,20 @@
 package com.appsistema.sistemaga;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,11 +25,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import org.json.JSONObject;
 
@@ -33,8 +39,14 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -102,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (view.getId() == R.id.btn_salir) {
             //cierra la aplicacion
-            //finish();
+
             System.exit(0);
 
         }
@@ -133,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             // Creacion de ProgressDialog
             ProgressDialogHelper.showProgressDialog(this,"Validando Acceso...");
             //se concatena el host del servidor + el modulo del api (ws)
-            ValidaLogin tarea = new ValidaLogin();
+            MainActivity.ValidaLogin tarea = new MainActivity.ValidaLogin();
             tarea.execute(host + "/valida_login/");
         }else{
             Toast.makeText(this, "Complete los campos para continuar",Toast.LENGTH_LONG).show();
@@ -220,7 +232,14 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                                 break;
-
+                            case 2:
+                                Perfil = perfil;
+                                Usuario = usuario;
+                                ProgressDialogHelper.ocultarProgressDialog();
+                                Intent intent2 = new Intent(MainActivity.this, mis_alumnosApoderado.class);
+                                startActivity(intent2);
+                                finish();
+                                break;
                             case 3:
                                 Perfil = perfil;
                                 Usuario = usuario;
