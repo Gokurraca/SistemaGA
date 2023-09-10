@@ -14,5 +14,6 @@
     <color name="vino">#CD6155</color>
     <color name="gris">#34495E</color>
     <color name="azul">#2980B9 </color>
+    <color name="card">#FAFEFF </color>
 
 </resources>

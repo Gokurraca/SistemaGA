@@ -1,31 +1,45 @@
 package com.appsistema.sistemaga;
 
+import static com.appsistema.sistemaga.MainActivity.Usuario;
 import static com.appsistema.sistemaga.MainActivity.host;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +59,8 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class agregar_falta extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -57,9 +73,9 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
     String rut_funcionario;
     ProgressDialog progressDialog;
     TextView txt_descripcion;
-    Integer id_curso;
     Integer opcion_CategoriaFalta = 0;
     String opcion_IDfalta = "";
+    Integer id_curso;
     Button btn_registrarFalta;
     Button btn_limpiar;
     private int selectedItemId;
@@ -73,16 +89,6 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_falta);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Cargando datos...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        // Obtén el drawable del ProgressDialog y establece s u color
-        Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
-        drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
-        progressDialog.setIndeterminateDrawable(drawable);
-
         lbl_alumno = findViewById(R.id.lbl_alumno);
         sp_Curso = findViewById(R.id.sp_Curso);
         sp_alumnos = findViewById(R.id.sp_alumnos);
@@ -95,15 +101,12 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
         btnMic = findViewById(R.id.btnMic);
         btn_limpiar = findViewById(R.id.btn_limpiar);
 
-
-
         //Recuperar datos de la vista anterior
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String Nombre = bundle.getString("nombreAlumno");
         String rutAlumno = bundle.getString("rutAlumno");
         String rutFuncionario = bundle.getString("rutFuncionario");
-
         //setea parametros
         rut_alumno = rutAlumno;
         rut_funcionario = rutFuncionario;
@@ -123,13 +126,12 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
         });
 
         //carga los alumnos
-        GetAlumno tareaCargar = new GetAlumno();
+        agregar_falta.GetAlumno tareaCargar = new agregar_falta.GetAlumno();
         tareaCargar.execute(host + "/datosAlumno/");
-
 
         //crea lista para spinner de categoria de faltas
         ArrayList<String> listaCategorias = new ArrayList<>();
-        listaCategorias.add("Seleccione una opción");
+        listaCategorias.add("Seleccione Categoria");
         listaCategorias.add("Leve");
         listaCategorias.add("Grave");
         listaCategorias.add("Gravísima");
@@ -180,15 +182,14 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
                 // Obtener el texto hablado y mostrarlo en el EditText
                 String spokenText = result.get(0);
                 // Primera letra en mayuscula del spech to text
-                if (!txt_descripcion.getText().toString().trim().equals("")) {
-                    spokenText =  spokenText.substring(0).toLowerCase(); // Letras en minuscula si hay texto
+                 if (!txt_descripcion.getText().toString().trim().equals("")){
+                    txt_descripcion.append(spokenText + " ");}
+                 if(txt_descripcion.getText().toString().trim().equals("")){
+                    spokenText= spokenText.substring(0,1).toUpperCase()+spokenText.substring(1).toLowerCase(); // Primera letra en mayuscula
+                    txt_descripcion.append(spokenText + " ");}
 
-                    txt_descripcion.append(spokenText + " ");
-                }
-                if (txt_descripcion.getText().toString().trim().equals("")) {
-                    spokenText = spokenText.substring(0, 1).toUpperCase() + spokenText.substring(1).toLowerCase(); // Primera letra en mayuscula
-                    txt_descripcion.append(spokenText + " ");
-                }
+
+
             }
         }
     }
@@ -210,7 +211,12 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
                 startActivity(intent1);
                 finish();
                 break;
-
+            case R.id.menu_faltas: // Registro de faltas
+                //Toast.makeText(getApplicationContext(), "Opción Registro de faltas seleccionada", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(agregar_falta.this, agregar_falta_masivo.class);
+                startActivity(intent);
+                finish();
+                break;
             case R.id.menu_salir: // Listado de faltas
                 Intent intent2 = new Intent(agregar_falta.this, MainActivity.class);
                 startActivity(intent2);
@@ -219,53 +225,54 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
         }
         return super.onOptionsItemSelected(item);
     }
+
+    // Método para validar si el texto contiene solo números
     public static boolean containsOnlyNumbers(String text) {
         return text.matches("\\d+");
     }
-
     private void registrarFalta(){
-
-            if(opcion_IDfalta.equals(null) || opcion_CategoriaFalta.equals(0)){
-                Toast.makeText(agregar_falta.this, "Debe seleccionar una categoria", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        if(opcion_IDfalta.equals(null) || opcion_CategoriaFalta.equals(0)){
+            Toast.makeText(agregar_falta.this, "Debe seleccionar una categoria", Toast.LENGTH_SHORT).show();
+       return;
+        }
             if (txt_descripcion.getText().toString().trim().equals("")){
                 Toast.makeText(agregar_falta.this, "Debe ingresar una descripcion par este Incidente", Toast.LENGTH_SHORT).show();
-                return;
+           return;
             }
-            if (containsOnlyNumbers(txt_descripcion.getText().toString().replaceAll("\\s",""))) {
-                Toast.makeText(agregar_falta.this, "La descripcion no puedo tener solo numeros", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            agregar_falta.GuardarRegistro tareaCargar = new agregar_falta.GuardarRegistro();
-            tareaCargar.execute(host + "/guardarRegistro/");
-        }
+                if (containsOnlyNumbers(txt_descripcion.getText().toString().replaceAll("\\s",""))) {
+                    Toast.makeText(agregar_falta.this, "La descripcion no puedo tener solo numeros", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                agregar_falta.GuardarRegistro tareaCargar = new agregar_falta.GuardarRegistro();
+                ProgressDialogHelper.showProgressDialog(this,"Procesando...");
+                tareaCargar.execute(host + "/guardarRegistro/");
+   }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // Verifica qué Spinner se activó
         if (parent.getId() == R.id.sp_CategoriaFalta) {
             // Spinner sp_CategoriaFalta
             String opcionSeleccionada = parent.getItemAtPosition(position).toString();
-            if (opcionSeleccionada.equals("Seleccione una opción")) {
+            if (opcionSeleccionada.equals("Seleccione Categoria")) {
                 opcion_CategoriaFalta = 0;
             } else {
                 switch (opcionSeleccionada) {
                     case "Leve":
                         opcion_CategoriaFalta = 1;
                         //carga las falta según categoria
-                        GetFalta tareaCargar = new GetFalta();
+                        agregar_falta.GetFalta tareaCargar = new agregar_falta.GetFalta();
                         tareaCargar.execute(host + "/faltas/");
                         break;
                     case "Grave":
                         opcion_CategoriaFalta = 2;
                         //carga las falta según categoria
-                        GetFalta tareaCargar1 = new GetFalta();
+                        agregar_falta.GetFalta tareaCargar1 = new agregar_falta.GetFalta();
                         tareaCargar1.execute(host + "/faltas/");
                         break;
                     case "Gravísima":
                         opcion_CategoriaFalta = 3;
                         //carga las falta según categoria
-                        GetFalta tareaCargar2 = new GetFalta();
+                        agregar_falta.GetFalta tareaCargar2 = new agregar_falta.GetFalta();
                         tareaCargar2.execute(host + "/faltas/");
                         break;
                 }
@@ -311,41 +318,51 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
             try {
 
                 JSONObject jsonObject = result;
+
                 if (jsonObject.getString("status").trim().equals("OK")) {
+
                     JSONArray jsonArray = jsonObject.getJSONArray("datosAlumno");
+
                     ArrayList<String> listaCursos = new ArrayList<>();
                     ArrayList<String> listaAlumnos = new ArrayList<>();
+
                     for (int i = 0; i < jsonArray.length(); i++) {
+
                         try {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+
                             String nombreCompleto = jsonObject1.getString("nombre_completo");
                             String curso = jsonObject1.getString("desc_curso");
                             String cod_curso = jsonObject1.getString("cod_curso");
                             id_curso=Integer.parseInt(cod_curso);
+
                             listaAlumnos.add(nombreCompleto);
                             listaCursos.add(curso);
+
                             ArrayAdapter<String> adapterCursos = new ArrayAdapter<>(agregar_falta.this, android.R.layout.simple_spinner_item, listaCursos);
                             adapterCursos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             sp_Curso.setAdapter(adapterCursos);
+
                             ArrayAdapter<String> adapterAlumnos = new ArrayAdapter<>(agregar_falta.this, android.R.layout.simple_spinner_item, listaAlumnos);
                             adapterAlumnos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             sp_alumnos.setAdapter(adapterAlumnos);
+
                         } catch (JSONException e) {
                             Toast.makeText(agregar_falta.this, "i " + e, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            ProgressDialogHelper.ocultarProgressDialog();
                         }
                     }
 
                 } else if (jsonObject.getString("status").trim().equals("error")) {
                     String mensaje = jsonObject.getString("mensaje");
                     Toast.makeText(agregar_falta.this, mensaje, Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(agregar_falta.this, "i ", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj", "" + e);
                 Toast.makeText(agregar_falta.this, "ERROR " + e, Toast.LENGTH_SHORT).show();
             }
@@ -422,9 +439,14 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
             try {
 
                 JSONObject jsonObject = result;
+                ArrayList<Falta> listaFalta = new ArrayList<>();
+
                 if (jsonObject.getString("status").trim().equals("OK")) {
+
                     JSONArray jsonArray = jsonObject.getJSONArray("datoFalta");
-                    ArrayList<Falta> listaFalta = new ArrayList<>();
+
+
+
                     for (int i = 0; i < jsonArray.length(); i++) {
                         try {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -436,7 +458,7 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
                             listaFalta.add(falta);
                         } catch (JSONException e) {
                             Toast.makeText(agregar_falta.this, "error " + e, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            ProgressDialogHelper.ocultarProgressDialog();
                         }
                     }
 
@@ -450,13 +472,17 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String mensaje = jsonObject.getString("Mensaje");
                     Toast.makeText(agregar_falta.this, mensaje, Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    ArrayAdapter<Falta> adapterFalta = new ArrayAdapter<>(agregar_falta.this, android.R.layout.simple_spinner_item, listaFalta);
+                    adapterFalta.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    sp_falta.setAdapter(adapterFalta);
+
+                    ProgressDialogHelper.ocultarProgressDialog();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(agregar_falta.this, "i ", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj", "" + e);
                 Toast.makeText(agregar_falta.this, "ERROR " + e, Toast.LENGTH_SHORT).show();
             }
@@ -537,27 +563,29 @@ public class agregar_falta extends AppCompatActivity implements AdapterView.OnIt
         @Override
         protected void onPostExecute(String result) {
             if(result.equals("ERROR")){
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
             }else {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
 
                     if (jsonObject.getString("status").trim().equals("OK")) {
-                        progressDialog.dismiss();
+
                         DialogoExito("Alerta","Registro guardado correctamente");
+                        ProgressDialogHelper.ocultarProgressDialog();
+
 
                     } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                         String mensaje = jsonObject.getString("Mensaje");
                         Toast.makeText(agregar_falta.this, mensaje, Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
+                        ProgressDialogHelper.ocultarProgressDialog();
                         Toast.makeText(agregar_falta.this, "error ", Toast.LENGTH_SHORT).show();
                     } else {
-                        progressDialog.dismiss();
+                        ProgressDialogHelper.ocultarProgressDialog();
                         Toast.makeText(agregar_falta.this, "i ", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Log.e("hj", "" + e);
                     Toast.makeText(agregar_falta.this, "Error " + e, Toast.LENGTH_SHORT).show();
                 }

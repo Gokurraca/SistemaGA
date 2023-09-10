@@ -3,6 +3,7 @@ package com.appsistema.sistemaga;
 import static com.appsistema.sistemaga.MainActivity.host;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AlertDialogLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,11 +47,12 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
+
 public class crud_superusuario extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
 
     Metodos m ;
-    ProgressDialog progressDialog;
+
     Button btn_limpiar;
     Button btn_modificar;
     ImageButton btn_modificar1;
@@ -62,7 +65,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
     Spinner sp_categoriaFalta;
     Spinner sp_falta;
     TextView txt_descripcion;
-    TextView txt_descripcion1;
+
     TextView lbl_idFalta;
     String opcion_IDfalta="";
     Integer TipoAccion=0;
@@ -77,16 +80,6 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crud_superusuario);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Cargando Alumnos...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        // Obtén el drawable del ProgressDialog y establece s u color
-        Drawable drawable = new ProgressBar(this).getIndeterminateDrawable().mutate();
-        drawable.setColorFilter(getResources().getColor(R.color.botones), PorterDuff.Mode.SRC_IN);
-        progressDialog.setIndeterminateDrawable(drawable);
-
         btn_modificar1 = findViewById(R.id.btn_modificar);
         btn_agregar = findViewById(R.id.btn_agregar);
         btn_eliminar = findViewById(R.id.btn_eliminar);
@@ -325,6 +318,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Eliminar tareaCargar = new Eliminar();
+                        ProgressDialogHelper.showProgressDialog(crud_superusuario.this,"Procesando...");
                         tareaCargar.execute(host + "/eliminarfalta/");
                     }
                 })
@@ -346,7 +340,9 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                     public void onClick(DialogInterface dialog, int id) {
                         // Acción a realizar cuando se selecciona "Sí"
                         Modificar tareaCargar = new Modificar();
+                        ProgressDialogHelper.showProgressDialog(crud_superusuario.this,"Procesando...");
                         tareaCargar.execute(host + "/modificarfalta/");
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -367,8 +363,10 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Acción a realizar cuando se selecciona "Sí"
-                        crud_superusuario.Agregar tareaCargar = new crud_superusuario.Agregar();
+                        Agregar tareaCargar = new Agregar();
+                        ProgressDialogHelper.showProgressDialog(crud_superusuario.this,"Procesando...");
                         tareaCargar.execute(host + "/guardarfalta/");
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -406,16 +404,21 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                     btn_modificar.setEnabled(false);
                     txt_descripcion.setText("");
                     sp_categoriaFalta.setSelection(0);
+                    ProgressDialogHelper.ocultarProgressDialog();
+                    Intent intent2 = new Intent(crud_superusuario.this, crud_superusuario.class);
+                    startActivity(intent2);
+                    finish();
+
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String Mensaje = jsonObject.getString("Mensaje");
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(crud_superusuario.this, "" + Mensaje, Toast.LENGTH_SHORT).show();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(crud_superusuario.this, "Error de servidor", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj",""+e);
                 Toast.makeText(crud_superusuario.this, "Error al conectar con el servidor  " + e, Toast.LENGTH_SHORT).show();
             }
@@ -498,19 +501,24 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                     //Valido el tipo de perfil para redireccionar.
                     String mensaje = jsonObject.getString("Mensaje");
                     Toast.makeText(crud_superusuario.this, mensaje,Toast.LENGTH_LONG).show();
+
                     btn_guardar.setEnabled(false);
                     txt_descripcion.setText("");
                     sp_categoriaFalta.setSelection(0);
+                    ProgressDialogHelper.ocultarProgressDialog();
+                    Intent intent2 = new Intent(crud_superusuario.this, crud_superusuario.class);
+                    startActivity(intent2);
+                    finish();
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String Mensaje = jsonObject.getString("Mensaje");
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(crud_superusuario.this, "" + Mensaje, Toast.LENGTH_SHORT).show();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(crud_superusuario.this, "Error de servidor", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj",""+e);
                 Toast.makeText(crud_superusuario.this, "Error al conectar con el servidor  " + e, Toast.LENGTH_SHORT).show();
             }
@@ -529,6 +537,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                 String descripcion = txt_descripcion.getText().toString().trim();
                 params.put("cat_falta", opcion_CategoriaFalta);
                 params.put("des_falta", descripcion);
+
 
                 StringBuilder postData = new StringBuilder();
                 for (Map.Entry<String, Object> param : params.entrySet()) {
@@ -592,15 +601,21 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                     String mensaje = jsonObject.getString("Mensaje");
                     Toast.makeText(crud_superusuario.this, mensaje,Toast.LENGTH_LONG).show();
                     btn_eliminarFalta.setEnabled(false);
+                    ProgressDialogHelper.ocultarProgressDialog();
+                    Intent intent2 = new Intent(crud_superusuario.this, crud_superusuario.class);
+                    startActivity(intent2);
+                    finish();
+
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String Mensaje = jsonObject.getString("Mensaje");
                     Toast.makeText(crud_superusuario.this, "" + Mensaje, Toast.LENGTH_SHORT).show();
+                    ProgressDialogHelper.ocultarProgressDialog();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(crud_superusuario.this, "Error de servidor", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj",""+e);
                 Toast.makeText(crud_superusuario.this, "Error al conectar con el servidor  " + e, Toast.LENGTH_SHORT).show();
             }
@@ -732,6 +747,7 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
     }
 
     @Override
+    // Rescatar valores de Speech to text / Validacion Inicio con mayuscula
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == RESULT_OK && data != null) {
@@ -807,12 +823,13 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                             String idFalta = jsonObject1.getString("id_falta");
                             String des_falta = jsonObject1.getString("des_falta");
 
+
                             // Crea un objeto Falta y añádelo a la lista
                             Falta falta = new Falta(idFalta, des_falta);
                             listaFalta.add(falta);
                         } catch (JSONException e) {
                             Toast.makeText(crud_superusuario.this, "error " + e, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            ProgressDialogHelper.ocultarProgressDialog();
                         }
                     }
 
@@ -826,13 +843,13 @@ public class crud_superusuario extends AppCompatActivity implements AdapterView.
                 } else if (jsonObject.getString("status").trim().equals("ERROR")) {
                     String mensaje = jsonObject.getString("Mensaje");
                     Toast.makeText(crud_superusuario.this, mensaje, Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                 } else {
-                    progressDialog.dismiss();
+                    ProgressDialogHelper.ocultarProgressDialog();
                     Toast.makeText(crud_superusuario.this, "i ", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                ProgressDialogHelper.ocultarProgressDialog();
                 Log.e("hj", "" + e);
                 Toast.makeText(crud_superusuario.this, "ERROR " + e, Toast.LENGTH_SHORT).show();
             }

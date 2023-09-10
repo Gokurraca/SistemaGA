@@ -32,7 +32,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,15 +41,32 @@
             android:orientation="vertical"
             android:paddingTop="5dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Registro de Incidentes"
-                android:textAlignment="center"
-                android:textSize="35sp"
-                android:textStyle="bold"
-                android:textColor="@color/teal_700"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/foradd"
+                    android:layout_marginStart="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Registro de Incidentes"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/teal_700"
+                    android:layout_marginTop="10dp"/>
+
+           </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/lbl_alumno"
@@ -112,7 +130,7 @@
                     android:id="@+id/txt_descripcion"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:hint="Ingrese descripción de falta"
+                    android:hint="Ingrese descripción del Incidente"
                     android:textSize="16sp"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textStyle="bold"
@@ -136,6 +154,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignBottom="@id/txt_descripcion"
+                    android:layout_alignParentEnd="true"
                     android:background="?attr/selectableItemBackground"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_mic" />

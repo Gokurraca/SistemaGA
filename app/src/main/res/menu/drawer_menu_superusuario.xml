@@ -2,5 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_salir"
-        android:title="Salir" />
+        android:title="Salir"
+        android:textStyle="bold"/>
 </menu>

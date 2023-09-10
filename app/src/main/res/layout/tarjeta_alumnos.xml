@@ -5,11 +5,11 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardBackgroundColor="#FAFEFF "
-    android:layout_marginTop="5dp"
-    app:cardCornerRadius="1in"    >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/card"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="30dp"    >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,20 +23,51 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
-                android:paddingLeft="70dp">
+                android:paddingLeft="20dp">
 
-                <ImageView
-                    android:id="@+id/imagen_alumnos"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    app:srcCompat="@drawable/alumno"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false" />
+                <LinearLayout
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imagen_alumnos"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        app:srcCompat="@drawable/alumno"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:id="@+id/txt_nombreAlumno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Nombre "
+                        android:textColor="@color/gris"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txt_rutAlumno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Rut "
+                        android:textColor="@color/gris"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="66dp"
-                    android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:orientation="vertical">
@@ -55,7 +86,7 @@
                             android:focusable="false"
                             android:focusableInTouchMode="false"
                             android:text="F.Leves: "
-                            android:textSize="15sp"
+                            android:textSize="17sp"
                             android:textColor="@color/vino"
                             android:textStyle="bold"/>
 
@@ -68,7 +99,7 @@
                             android:fontFamily="sans-serif-black"
                             android:text="FaltaLeve"
                             android:textColor="@color/azul"
-                            android:textSize="15sp" />
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -85,7 +116,7 @@
                             android:focusable="false"
                             android:focusableInTouchMode="false"
                             android:text="F.Grave: "
-                            android:textSize="15sp"
+                            android:textSize="17sp"
                             android:textColor="@color/vino"
                             android:textStyle="bold"/>
 
@@ -98,7 +129,7 @@
                             android:fontFamily="sans-serif-black"
                             android:text="FaltaGrave"
                             android:textColor="@color/azul"
-                            android:textSize="15sp" />
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -115,7 +146,7 @@
                             android:focusable="false"
                             android:focusableInTouchMode="false"
                             android:text="F.Gravísimas: "
-                            android:textSize="15sp"
+                            android:textSize="17sp"
                             android:textColor="@color/vino"
                             android:textStyle="bold"/>
 
@@ -128,7 +159,7 @@
                             android:fontFamily="sans-serif-black"
                             android:text="FaltaGravisima"
                             android:textColor="@color/azul"
-                            android:textSize="15sp" />
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -137,37 +168,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="62dp"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txt_nombreAlumno"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
-
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:fontFamily="sans-serif-black"
-                android:text="Nombre "
-                android:textColor="@color/gris"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/txt_rutAlumno"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10sp"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:fontFamily="sans-serif-black"
-                android:text="Rut "
-                android:textColor="@color/gris"
-                android:textSize="13sp" />
-        </LinearLayout>
 
     </androidx.cardview.widget.CardView>/>
 

@@ -1,7 +1,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#FFFFFF" /> <!-- Color de fondo del Spinner -->
-    <corners android:radius="10dp" /> <!-- Radio de las esquinas para hacerlo redondeado -->
+    <corners android:radius="10dp" />
+    <solid android:color="#FFFFFF" />
     <stroke
-        android:color="#000000"
-        android:width="1dp" />
+        android:width="2dp"
+        android:color="#FF3700B3" />
 </shape>

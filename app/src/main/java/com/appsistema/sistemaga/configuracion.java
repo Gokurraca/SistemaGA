@@ -1,6 +1,6 @@
 package com.appsistema.sistemaga;
 
-import static com.appsistema.sistemaga.MainActivity.host;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,8 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
-import androidx.appcompat.app.AppCompatActivity;
+import static com.appsistema.sistemaga.MainActivity.host;
 
 public class configuracion extends AppCompatActivity {
     EditText txt_host;
@@ -34,7 +33,7 @@ public class configuracion extends AppCompatActivity {
     }
 
     public void botones(View view){
-        if(view.getId()== R.id.btn_guardar){
+        if(view.getId()==R.id.btn_guardar){
             if(txt_host.getText().toString().isEmpty()){
                 Dialogo("Alerta","Debe llenar todos los campos");
             }else{
