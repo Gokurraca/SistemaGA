@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
     static final Integer PHONESTATS = 0x1;
     public static String host = "http://host.cl/servicio/public";
-    public static JSONObject jsonObject = null;
     public static String Usuario = "";
     public static Integer Perfil = 0;
     EditText passwordEditText;

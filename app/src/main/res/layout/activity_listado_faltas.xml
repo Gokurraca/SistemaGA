@@ -39,7 +39,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            app:srcCompat="@drawable/lista"
+            app:srcCompat="@drawable/listas"
             android:layout_marginStart="5dp" />
 
         <TextView

@@ -12,6 +12,20 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp">
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/upd"
+            android:layout_marginStart="30sp"
+            />
 
         <TextView
             android:id="@+id/textView3"
@@ -20,9 +34,10 @@
             android:text="Modificar Falta"
             android:textSize="30sp"
             android:layout_marginTop="10dp"
-            android:gravity="center"
+            android:layout_marginStart="15dp"
             android:textStyle="bold"
             android:textColor="@color/teal_700"/>
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
