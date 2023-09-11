@@ -23,9 +23,9 @@
 
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:srcCompat="@drawable/detalle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:srcCompat="@drawable/det_inc"
             android:layout_marginStart="5dp"
 
             />
